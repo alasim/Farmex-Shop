@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1022478621477",
+    "firebase_url": "https://farmex-shop.firebaseio.com",
+    "project_id": "farmex-shop",
+    "storage_bucket": "farmex-shop.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022478621477:android:0d7fe8d68acac282f7d8cc",
+        "android_client_info": {
+          "package_name": "com.example.farmex_shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1022478621477-vbk5bpd1hcu7v6romi4bkjem5ile8g74.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOt7QieK7qRESIDCB4QkyJkF7GVC-6IfU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1022478621477-vbk5bpd1hcu7v6romi4bkjem5ile8g74.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
