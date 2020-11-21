@@ -32,12 +32,14 @@ dependencies:
   flutter_svg: ^0.18.1
   intl: ^0.16.1
   badges: ^1.1.1
-  dotted_border: ^1.0.6
-  firebase_core: "^0.5.1"
-  firebase_auth: "^0.18.2"
-  cloud_firestore: "^0.14.2"
-  firebase_storage: "^5.0.1"
+  dotted_border: 
+  firebase_core: 
+  firebase_auth: 
+  cloud_firestore: 
+  firebase_storage:
   get:
+  google_sign_in: 
+  image_picker:
 
 dev_dependencies:
   flutter_test:  

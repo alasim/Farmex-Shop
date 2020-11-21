@@ -1,14 +1,15 @@
+import 'package:farmex_shop/controllers/productController.dart';
 import 'package:farmex_shop/shared/CircleButton.dart';
 import 'package:farmex_shop/models/constants.dart';
 import 'package:farmex_shop/models/datas.dart';
 import 'package:farmex_shop/models/product.dart';
 import 'package:farmex_shop/screens/details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ReletedItemCard extends StatefulWidget {
-  ReletedItemCard({this.p, this.refreshParent});
+  ReletedItemCard({this.p});
   final Product p;
-  final Function refreshParent;
 
   @override
   _ReletedItemCardState createState() => _ReletedItemCardState();
@@ -19,11 +20,10 @@ class _ReletedItemCardState extends State<ReletedItemCard> {
     setState(() {
       widget.p.loved = widget.p.loved ? false : true;
       if (widget.p.loved)
-        wishlisted.add(widget.p);
+        productController.wishlisted.add(widget.p);
       else
-        wishlisted.remove(widget.p);
+        productController.wishlisted.remove(widget.p);
 
-      print(wishlisted.length.toString());
       //print(setting['wishlisted'][0]);
     });
     return null;
@@ -31,9 +31,9 @@ class _ReletedItemCardState extends State<ReletedItemCard> {
 
   Function cartHandle() {
     setState(() {
-      if (!carted.contains(widget.p)) {
-        carted.add(widget.p);
-        inCart[widget.p.name] = 1;
+      if (!productController.carted.contains(widget.p)) {
+        productController.carted.add(widget.p);
+        productController.inCart[widget.p.name] = 1;
         Scaffold.of(context).showSnackBar(
           SnackBar(
             duration: Duration(milliseconds: 700),
@@ -41,14 +41,10 @@ class _ReletedItemCardState extends State<ReletedItemCard> {
           ),
         );
       } else {
-        inCart.remove(widget.p.name);
-        carted.remove(widget.p);
-        Scaffold.of(context).showSnackBar(
-          SnackBar(
-            duration: Duration(milliseconds: 700),
-            content: Text('${widget.p.name} deleted from cart'),
-          ),
-        );
+        productController.inCart.remove(widget.p.name);
+        productController.carted.remove(widget.p);
+        print('productController.inCart.length');
+        print(productController.inCart.length);
       }
       print(carted.length.toString());
       //print(setting['wishlisted'][0]);
@@ -60,15 +56,16 @@ class _ReletedItemCardState extends State<ReletedItemCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => DetailsScreen(
-              p: widget.p,
-              //refreshParen: widget.refreshParent,
-            ),
-          ),
-        );
+        Get.off(DetailsScreen(p: widget.p));
+        // Navigator.push(
+        //   context,
+        //   MaterialPageRoute(
+        //     builder: (context) => DetailsScreen(
+        //       p: widget.p,
+        //       //refreshParen: widget.refreshParent,
+        //     ),
+        //   ),
+        // );
       },
       child: Container(
         child: Card(
@@ -156,7 +153,6 @@ class _ReletedItemCardState extends State<ReletedItemCard> {
                           carted.contains(widget.p) ? Icons.done : Icons.add,
                           () {
                         cartHandle();
-                        widget.refreshParent();
                       }, 18),
                     ),
                   ],

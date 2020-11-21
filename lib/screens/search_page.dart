@@ -5,6 +5,7 @@ import 'package:farmex_shop/ui/search_item_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 
 class Searchpage extends StatefulWidget {
   Searchpage();
@@ -71,56 +72,100 @@ class _SearchpageState extends State<Searchpage> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     print('preProducts: ${preProducts.length}');
     return Scaffold(
+      appBar: AppBar(
+        title: Container(
+          height: 45,
+          width: Get.width,
+          child: TextField(
+            controller: _controller,
+            autofocus: true,
+            onChanged: (inputs) {
+              onSearch(inputs);
+            },
+            decoration: InputDecoration(
+              fillColor: Colors.white,
+              filled: true,
+              hintText: 'Type item name..',
+              alignLabelWithHint: true,
+              hintStyle: TextStyle(
+                color: Colors.grey.withOpacity(.5),
+              ),
+              suffixIcon: IconButton(
+                onPressed: () {
+                  _controller.clear();
+                },
+                icon: Icon(Icons.close),
+              ),
+              // suffixIcon: Icon(
+              //   Icons.close,
+              //   color: kDeepGeen,
+              // ),
+              contentPadding: EdgeInsets.only(top: 5),
+              border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(5),
+              ),
+            ),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: Column(
           children: [
             //SizedBox(height: 10),
             Row(
               children: [
-                IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(
-                    Icons.keyboard_arrow_left_outlined,
-                    size: 35,
-                    color: Colors.grey,
-                  ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    height: 50,
-                    child: TextField(
-                      controller: _controller,
-                      autofocus: true,
-                      onChanged: (inputs) {
-                        onSearch(inputs);
-                      },
-                      decoration: InputDecoration(
-                        fillColor: Colors.white,
-                        filled: true,
-                        hintText: 'Type item name..',
-                        alignLabelWithHint: true,
-                        hintStyle: TextStyle(
-                          color: Colors.grey.withOpacity(.5),
-                        ),
-                        prefixIcon: Icon(
-                          Icons.search,
-                          color: kDeepGeen,
-                        ),
-                        contentPadding: EdgeInsets.only(top: 5),
-                        border: OutlineInputBorder(
-                          borderSide: BorderSide.none,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                // IconButton(
+                //   onPressed: () {
+                //     Navigator.pop(context);
+                //   },
+                //   icon: Icon(
+                //     Icons.keyboard_arrow_left_outlined,
+                //     size: 35,
+                //     color: Colors.grey,
+                //   ),
+                // ),
+                // Expanded(
+                //   flex: 3,
+                //   child: Container(
+                //     height: 50,
+                //     child: TextField(
+                //       controller: _controller,
+                //       autofocus: true,
+                //       onChanged: (inputs) {
+                //         onSearch(inputs);
+                //       },
+                //       decoration: InputDecoration(
+                //         fillColor: Colors.white,
+                //         filled: true,
+                //         hintText: 'Type item name..',
+                //         alignLabelWithHint: true,
+                //         hintStyle: TextStyle(
+                //           color: Colors.grey.withOpacity(.5),
+                //         ),
+                //         prefixIcon: Icon(
+                //           Icons.search,
+                //           color: kDeepGeen,
+                //         ),
+                //         contentPadding: EdgeInsets.only(top: 5),
+                //         border: OutlineInputBorder(
+                //           borderSide: BorderSide.none,
+                //           borderRadius: BorderRadius.circular(5),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             //SizedBox(height: 20),

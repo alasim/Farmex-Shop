@@ -1,3 +1,4 @@
+import 'package:farmex_shop/controllers/productController.dart';
 import 'package:farmex_shop/models/constants.dart';
 import 'package:farmex_shop/models/datas.dart';
 import 'package:farmex_shop/models/product.dart';
@@ -5,6 +6,7 @@ import 'package:farmex_shop/screens/details_screen.dart';
 import 'package:farmex_shop/shared/CircleButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ItemMain extends StatefulWidget {
   ItemMain({this.p, this.refreshMain});
@@ -21,17 +23,31 @@ class _ItemMainState extends State<ItemMain> {
       setState(() {
         widget.p.loved = widget.p.loved ? false : true;
         if (widget.p.loved)
-          wishlisted.add(widget.p);
+          productController.wishlisted.add(widget.p);
         else
-          wishlisted.remove(widget.p);
-
-        print(wishlisted.length.toString());
-        //print(setting['wishlisted'][0]);
+          productController.wishlisted.remove(widget.p);
       });
       return null;
     }
 
     Function cartHandle() {
+      if (!productController.carted.contains(widget.p)) {
+        productController.carted.add(widget.p);
+        productController.inCart[widget.p.name] = 1;
+      } else {
+        productController.inCart.remove(widget.p.name);
+        productController.carted.remove(widget.p);
+      }
+      print('productController.carted');
+      print(productController.carted);
+      print('productController.inCart[widget.p.name]');
+      print(productController.inCart[widget.p.name]);
+      //print(setting['wishlisted'][0]);
+
+      return null;
+    }
+
+    Function cartHandle2() {
       setState(() {
         if (!carted.contains(widget.p)) {
           carted.add(widget.p);
@@ -74,111 +90,115 @@ class _ItemMainState extends State<ItemMain> {
       return null;
     }
 
-    return Container(
-      height: 100,
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(15)),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(color: Colors.black.withAlpha(50), blurRadius: 5.0),
-          ]),
-      child: Padding(
-        padding:
-            const EdgeInsets.only(left: 20, right: 10, top: 10, bottom: 10),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return Obx(() => Container(
+          height: 100,
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(15)),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(color: Colors.black.withAlpha(50), blurRadius: 5.0),
+              ]),
+          child: Padding(
+            padding:
+                const EdgeInsets.only(left: 20, right: 10, top: 10, bottom: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    itemClickHadle();
-                  },
-                  child: Text(
-                    widget.p.name,
-                    style: const TextStyle(
-                        fontSize: 22, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                SizedBox(height: 5),
-                Row(
-                  children: [
-                    CircleButton(
-                      carted.contains(widget.p) ? Icons.done : Icons.add,
-                      () {
-                        cartHandle();
-                        widget.refreshMain();
-                        itemCountInCartVn.value = carted.length;
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () {
+                        itemClickHadle();
                       },
-                    ),
-                    SizedBox(width: 15),
-                    RichText(
-                      text: TextSpan(
-                        text: '\৳ ${widget.p.price}',
-                        style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black87,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: ' /${widget.p.itemQuantity}',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
+                      child: Text(
+                        widget.p.name,
+                        style: const TextStyle(
+                            fontSize: 22, fontWeight: FontWeight.bold),
                       ),
+                    ),
+                    SizedBox(height: 5),
+                    Row(
+                      children: [
+                        CircleButton(
+                          productController.carted.contains(widget.p)
+                              ? Icons.done
+                              : Icons.add,
+                          () {
+                            cartHandle();
+                            widget.refreshMain();
+                            itemCountInCartVn.value = carted.length;
+                          },
+                        ),
+                        SizedBox(width: 15),
+                        RichText(
+                          text: TextSpan(
+                            text: '\৳ ${widget.p.price}',
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            children: [
+                              TextSpan(
+                                text: ' /${widget.p.itemQuantity}',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
-            Container(
-              height: double.infinity,
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 15),
-                    child: Hero(
-                      tag: widget.p.name,
-                      child: GestureDetector(
-                        onTap: () {
-                          itemClickHadle();
-                        },
-                        child: Image.asset(
-                          "assets/images/${widget.p.image}",
-                          //height: 150,
-                          width: 100,
+                Container(
+                  height: double.infinity,
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 15),
+                        child: Hero(
+                          tag: widget.p.name,
+                          child: GestureDetector(
+                            onTap: () {
+                              itemClickHadle();
+                            },
+                            child: Image.asset(
+                              "assets/images/${widget.p.image}",
+                              //height: 150,
+                              width: 100,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    top: 0,
-                    right: 0,
-                    child: GestureDetector(
-                      onTap: () {
-                        wishlistHandle();
-                      },
-                      child: Icon(
-                        widget.p.loved ? Icons.favorite : Icons.favorite_border,
-                        size: 27,
-                        color: widget.p.loved
-                            ? kDeepGeen.withOpacity(.7)
-                            : Colors.grey.withOpacity(.2),
+                      Positioned(
+                        top: 0,
+                        right: 0,
+                        child: GestureDetector(
+                          onTap: () {
+                            wishlistHandle();
+                          },
+                          child: Icon(
+                            widget.p.loved
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            size: 27,
+                            color: widget.p.loved
+                                ? kDeepGeen.withOpacity(.7)
+                                : Colors.grey.withOpacity(.2),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }

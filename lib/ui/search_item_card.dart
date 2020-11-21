@@ -1,3 +1,4 @@
+import 'package:farmex_shop/controllers/productController.dart';
 import 'package:farmex_shop/models/constants.dart';
 import 'package:farmex_shop/models/datas.dart';
 import 'package:farmex_shop/models/product.dart';
@@ -32,26 +33,16 @@ class _SearchItemCardState extends State<SearchItemCard> {
 
   Function cartHandle() {
     setState(() {
-      if (!carted.contains(widget.p)) {
-        carted.add(widget.p);
-        inCart[widget.p.name] = 1;
-        Scaffold.of(context).showSnackBar(
-          SnackBar(
-            duration: Duration(milliseconds: 700),
-            content: Text('${widget.p.name} added to cart'),
-          ),
-        );
+      print(productController.carted.length);
+      if (!productController.carted.contains(widget.p)) {
+        productController.carted.add(widget.p);
+        productController.inCart[widget.p.name] = 1;
+        print(productController.carted.length);
       } else {
-        inCart.remove(widget.p.name);
-        carted.remove(widget.p);
-        Scaffold.of(context).showSnackBar(
-          SnackBar(
-            duration: Duration(milliseconds: 700),
-            content: Text('${widget.p.name} deleted from cart'),
-          ),
-        );
+        productController.inCart.remove(widget.p.name);
+        productController.carted.remove(widget.p);
       }
-      print(carted.length.toString());
+
       //print(setting['wishlisted'][0]);
     });
     return null;
@@ -148,10 +139,11 @@ class _SearchItemCardState extends State<SearchItemCard> {
                     Padding(
                       padding: const EdgeInsets.only(right: 10),
                       child: CircleButton(
-                          carted.contains(widget.p) ? Icons.done : Icons.add,
-                          () {
+                          productController.carted.contains(widget.p)
+                              ? Icons.done
+                              : Icons.add, () {
                         cartHandle();
-                        widget.refreshParent();
+                        //widget.refreshParent();
                       }, 18),
                     ),
                   ],

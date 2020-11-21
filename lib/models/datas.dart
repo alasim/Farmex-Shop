@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -5,6 +6,7 @@ import './product.dart';
 import './constants.dart';
 
 enum types { vegetable, fruit, mortar }
+Map<String, int> priceSet = {}; //need for online persing
 List<Product> preProducts = [
   Product(
       type: types.mortar,
@@ -175,6 +177,9 @@ List<Product> preProducts = [
       price: 7,
       theme: greenTheme),
 ];
+
+var m = Map();
+
 List<Product> carted = [];
 List<Product> wishlisted = [];
 List<Product> vegetables = [];
@@ -239,17 +244,39 @@ class NotificationContent {
   String image;
 }
 
+class OrderModel {
+  String id;
+  String userId;
+  String publicKey;
+  String date;
+  Map inCart;
+  bool paied;
+  int payable;
+  OrderModel.fromQsnapshot(QueryDocumentSnapshot e, String key) {
+    this.id = e.data()['id'];
+    this.userId = e.data()['userId'];
+    this.date = e.data()['date'];
+    this.paied = e.data()['paied'];
+    this.payable = e.data()['payable'];
+    this.inCart = e.data()['items'];
+    this.publicKey = key;
+  }
+}
+
 class Order {
   Order(this.items, this.inCart, this.status);
+
+  String id;
   String date = DateFormat.yMMMd().format(DateTime.now());
   List<Product> items;
   var inCart;
   String status;
+  bool paied;
+  int payable;
   int totalAmount() {
     int _toatal = 0;
     items.forEach((e) {
       _toatal += e.price * inCart[e.name];
-      ;
     });
     return _toatal;
   }

@@ -1,3 +1,4 @@
+import 'package:farmex_shop/controllers/productController.dart';
 import 'package:farmex_shop/models/datas.dart';
 import 'package:farmex_shop/models/product.dart';
 import 'package:farmex_shop/ui/ful_width_button.dart';
@@ -25,8 +26,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
     reletedItems = [];
     for (var item in preProducts) {
       if (widget.p.type == item.type &&
-          !carted.contains(item) &&
-          !wishlisted.contains(item) &&
+          !productController.carted.contains(item) &&
+          !productController.wishlisted.contains(item) &&
           widget.p.name != item.name) reletedItems.add(item);
       if (reletedItems.length >= 2) break;
     }
@@ -186,7 +187,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       for (var item in reletedItems)
                                         ReletedItemCard(
                                           p: item,
-                                          refreshParent: widget.refreshParen,
                                         )
                                     ]),
                                   ],
@@ -246,9 +246,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
             ),
           ),
           FulWithButton(() {
-            if (!carted.contains(widget.p)) {
-              carted.add(widget.p);
-              inCart[widget.p.name] = 1;
+            if (!productController.carted.contains(widget.p)) {
+              productController.carted.add(widget.p);
+              productController.inCart[widget.p.name] = 1;
             }
             Navigator.pop(context);
             print('Item in cart: ${carted.length}');

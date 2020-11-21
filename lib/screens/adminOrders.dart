@@ -1,7 +1,9 @@
 import 'package:badges/badges.dart';
+import 'package:farmex_shop/controllers/adminController.dart';
 import 'package:farmex_shop/controllers/productController.dart';
 import 'package:farmex_shop/models/constants.dart';
 import 'package:farmex_shop/models/datas.dart';
+import 'package:farmex_shop/screens/adminOrderDetails.dart';
 import 'package:farmex_shop/screens/notification_details.dart';
 import 'package:farmex_shop/screens/order_details.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,28 +11,28 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
-class OrdersScreen extends StatefulWidget {
-  OrdersScreen({Key key}) : super(key: key);
+class AdminOrders extends StatefulWidget {
+  AdminOrders({Key key}) : super(key: key);
 
   @override
-  _OrdersScreenState createState() => _OrdersScreenState();
+  _AdminOrdersState createState() => _AdminOrdersState();
 }
 
-class _OrdersScreenState extends State<OrdersScreen> {
+class _AdminOrdersState extends State<AdminOrders> {
   List<OrderModel> orders = [];
-  @override
-  void initState() {
-    super.initState();
-    getOrders();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   getOrders();
+  // }
 
-  getOrders() async {
-    orders = await productController.orders;
-    print('orders.length');
-    print(orders.length);
-    print('orders.isEmpty');
-    print(orders.isEmpty.toString());
-  }
+  // getOrders() async {
+  //   orders = await productController.orders;
+  //   print('orders.length');
+  //   print(orders.length);
+  //   print('orders.isEmpty');
+  //   print(orders.isEmpty.toString());
+  // }
 
   bool _newNotiHighliter(item) {
     var newNoti = orders.length - orders.indexOf(item) == newNotifications;
@@ -43,10 +45,10 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
     return Scaffold(
       backgroundColor: Color.fromRGBO(244, 243, 243, 1),
-      appBar: appBarWithBackButton('Orders', context),
+      appBar: appBarWithBackButton('Admin Orders', context),
       body: SafeArea(
         child: FutureBuilder<List<OrderModel>>(
-            future: productController.orders,
+            future: adminController.orders,
             builder: (context, snapshot) {
               if (snapshot.hasData)
                 return Stack(
@@ -56,7 +58,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       child: ListView(
                         physics: BouncingScrollPhysics(),
                         children: [
-                          for (var item in snapshot.data.reversed)
+                          for (var item in snapshot.data)
                             item.paied
                                 ? Dismissible(
                                     child: orderCard(item, context),
@@ -77,7 +79,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                         ],
                       ),
                     ),
-                    orders.isEmpty
+                    snapshot.data.isEmpty
                         ? Center(
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -158,7 +160,7 @@ Widget orderCard(OrderModel item, context) {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => OrderDetails(item, item.payable),
+          builder: (context) => AdminOrderDetails(item, item.payable),
         ),
       );
     },

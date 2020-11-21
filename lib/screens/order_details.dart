@@ -5,7 +5,7 @@ import 'package:dotted_border/dotted_border.dart';
 
 class OrderDetails extends StatelessWidget {
   OrderDetails(this.order, this.totalAMount);
-  final Order order;
+  final OrderModel order;
   final int totalAMount;
   @override
   Widget build(BuildContext context) {
@@ -47,11 +47,10 @@ class OrderDetails extends StatelessWidget {
                       style: TextStyle(color: Colors.black87, fontSize: 20),
                       children: [
                         TextSpan(
-                          text: order.status,
+                          text: order.paied ? 'Paied' : 'Unpaied',
                           style: TextStyle(
-                              color: order.status == 'Paied'
-                                  ? Colors.green
-                                  : Colors.red[300]),
+                              color:
+                                  order.paied ? Colors.green : Colors.red[300]),
                         ),
                       ],
                     ),
@@ -65,7 +64,7 @@ class OrderDetails extends StatelessWidget {
                     strokeWidth: 2.5,
                     color: Color(0xff3c6382),
                     child: Container(
-                      height: 200 + (order.items.length).toDouble() * 20,
+                      height: 200 + (order.inCart.length).toDouble() * 20,
                       child: ListView(
                         children: [
                           Center(
@@ -82,16 +81,16 @@ class OrderDetails extends StatelessWidget {
                             ),
                           ),
                           Table(children: [
-                            for (var item in order.items)
+                            for (var k in order.inCart.keys)
                               TableRow(children: [
-                                Text('${item.name}',
+                                Text('$k',
                                     style: TextStyle(
                                         fontSize: 20,
                                         color: Color(0xff3c6382))),
                                 Container(
                                   alignment: Alignment.centerRight,
                                   child: Text(
-                                    '${item.price}x${order.inCart[item.name]}=${item.price * order.inCart[item.name]}',
+                                    '${priceSet[k]}x${order.inCart[k]}=${priceSet[k] * order.inCart[k]}',
                                     style: TextStyle(
                                         fontSize: 20, color: Color(0xff3c6382)),
                                   ),

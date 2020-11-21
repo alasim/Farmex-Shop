@@ -1,10 +1,13 @@
 import 'package:farmex_shop/main.dart';
 import 'package:farmex_shop/models/constants.dart';
 import 'package:farmex_shop/models/datas.dart';
-import 'package:farmex_shop/screens/home_screen2.dart';
+import 'package:farmex_shop/screens/adminOrders.dart';
+import 'package:farmex_shop/screens/home_screen.dart';
 import 'package:farmex_shop/screens/orders.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../controllers/productController.dart';
 
 class OrderConfirmed extends StatelessWidget {
   @override
@@ -27,14 +30,23 @@ class OrderConfirmed extends StatelessWidget {
                 ),
                 SizedBox(height: 150),
                 RaisedButton(
-                    child: Text('Go order list'),
-                    onPressed: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => OrdersScreen()));
-                    })
+                  child: Text('User orders'),
+                  onPressed: () {
+                    Get.to(OrdersScreen());
+                  },
+                ),
+                RaisedButton(
+                  child: Text('Admin orders'),
+                  onPressed: () {
+                    Get.to(AdminOrders());
+                  },
+                ),
+                RaisedButton(
+                  child: Text('Back to home'),
+                  onPressed: () {
+                    Get.back();
+                  },
+                ),
               ],
             ),
           ),
