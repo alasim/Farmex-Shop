@@ -171,8 +171,8 @@ class _ItemMainState extends State<ItemMain> {
                               itemClickHadle();
                             },
                             child: widget.fileImahe.isNull
-                                ? Image.asset(
-                                    "assets/images/${widget.p.image}",
+                                ? Image.network(
+                                    widget.p.image,
                                     //height: 150,
                                     width: 80,
                                   )

@@ -14,9 +14,32 @@ import 'package:badges/badges.dart';
 import 'package:farmex_shop/models/datas.dart';
 import 'package:get/get.dart';
 
+enum types { vegetable, fruit, mortar }
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // List<Map> mapData = [];
+
+  // preProducts.forEach((e) {
+  //   Map<String, String> map = {};
+  //   map['producName'] = e.name;
+  //   map['productUnit'] = e.itemQuantity;
+  //   map['producPrice'] = e.price.toString();
+  //   map['producDetails'] =
+  //       'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable.';
+  //   map['producType'] = e.type == types.vegetable
+  //       ? 'vegetable'
+  //       : e.type == types.fruit
+  //           ? 'fruit'
+  //           : 'mortar';
+  //   map['producTheme'] = 'green';
+  //   map['imageUrl'] = e.image;
+  //   Future.delayed(Duration(seconds: 10), () {
+  //     mapData.add(map);
+  //     print(mapData.length);
+  //     //Database().productUploadOnce(map);
+  //   });
+  // });
 
   runApp(
     GetMaterialApp(

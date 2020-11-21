@@ -11,6 +11,7 @@ import 'package:farmex_shop/models/product.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
+import 'package:farmex_shop/models/datas.dart';
 
 enum types { vegetable, fruit, mortar }
 
@@ -45,6 +46,21 @@ class _AdminProductUploadState extends State<AdminProductUpload> {
       theme: greenTheme);
   setProduct() {
     //vegetable, fruit, mortar
+    List<Map> mapData;
+
+    preProducts.forEach((e) {
+      Map<String, String> map = {};
+      map['producName'] = e.name;
+      map['productUnit'] = e.itemQuantity;
+      map['producPrice'] = e.price;
+      map['producType'] = e.type == types.vegetable
+          ? 'vegetable'
+          : e.type == types.fruit
+              ? 'fruit'
+              : 'mortar';
+      map['producTheme'] = 'green';
+      mapData.add(map);
+    });
     reviewProduct = Product(
         type: _producType == 'vegetable'
             ? types.vegetable

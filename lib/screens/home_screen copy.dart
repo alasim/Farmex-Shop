@@ -1,5 +1,4 @@
 import 'package:badges/badges.dart';
-import 'package:farmex_shop/controllers/fireProductController.dart';
 import 'package:farmex_shop/controllers/productController.dart';
 import 'package:farmex_shop/models/datas.dart';
 import 'package:farmex_shop/models/product.dart';
@@ -29,6 +28,102 @@ class _MyHomePageState extends State<MyHomePage> {
   ScrollController controller = ScrollController();
   bool closeTopContainer = false;
   double topContainer = 0;
+
+  List<Widget> itemsData = [];
+  List<Widget> allItems = [];
+  List<Widget> vegetables = [];
+  List<Widget> fruits = [];
+  List<Widget> mortars = [];
+  List<Product> allFireProducts = [];
+
+  void getPostsData() {
+    preProducts.forEach((e) {
+      priceSet[e.name] = e.price;
+      allItems.add(ItemMain(
+        p: e,
+        refreshMain: widget.refreshMain,
+      ));
+      if (e.type == types.vegetable) {
+        vegetables.add(ItemMain(
+          p: e,
+          refreshMain: widget.refreshMain,
+        ));
+      } else if (e.type == types.fruit) {
+        fruits.add(ItemMain(
+          p: e,
+          refreshMain: widget.refreshMain,
+        ));
+      } else if (e.type == types.mortar) {
+        mortars.add(ItemMain(
+          p: e,
+          refreshMain: widget.refreshMain,
+        ));
+      }
+    });
+    setState(() {
+      itemsData = allItems;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    categoriesScroller = CategoriesScroller(
+      () {
+        allCat();
+      },
+      () {
+        vegCat();
+      },
+      () {
+        fruitsCat();
+      },
+      () {
+        mortarCat();
+      },
+      () {
+        allCat();
+      },
+    );
+    getPostsData();
+    controller.addListener(() {
+      double value = controller.offset / 80;
+
+      setState(() {
+        topContainer = value;
+        closeTopContainer = controller.offset > 50;
+      });
+    });
+  }
+
+  void allCat() {
+    print('all');
+    setState(() {
+      itemsData = allItems;
+      print(allItems.length.toString());
+    });
+  }
+
+  void vegCat() {
+    setState(() {
+      itemsData = vegetables;
+      print(vegetables.length.toString());
+    });
+  }
+
+  void fruitsCat() {
+    setState(() {
+      itemsData = fruits;
+      print(fruits.length.toString());
+    });
+  }
+
+  void mortarCat() {
+    setState(() {
+      itemsData = mortars;
+      print(fruits.length.toString());
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -155,40 +250,31 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               Expanded(
-                child: FutureBuilder<List<ItemMain>>(
-                  future: FireProductCOntroller().itemsMain(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                        controller: controller,
-                        itemCount: snapshot.data.length,
-                        physics: BouncingScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          double scale = 1.0;
-                          if (topContainer > 0.5) {
-                            scale = index + 0.5 - topContainer;
-                            if (scale < 0) {
-                              scale = 0;
-                            } else if (scale > 1) {
-                              scale = 1;
-                            }
-                          }
-                          return Opacity(
-                            opacity: scale,
-                            child: Transform(
-                              transform: Matrix4.identity()
-                                ..scale(scale, scale),
-                              alignment: Alignment.bottomCenter,
-                              child: Align(
-                                  heightFactor: 0.7,
-                                  alignment: Alignment.topCenter,
-                                  child: snapshot.data[index]),
-                            ),
-                          );
-                        },
-                      );
-                    } else
-                      return Center(child: CircularProgressIndicator());
+                child: ListView.builder(
+                  controller: controller,
+                  itemCount: itemsData.length,
+                  physics: BouncingScrollPhysics(),
+                  itemBuilder: (context, index) {
+                    double scale = 1.0;
+                    if (topContainer > 0.5) {
+                      scale = index + 0.5 - topContainer;
+                      if (scale < 0) {
+                        scale = 0;
+                      } else if (scale > 1) {
+                        scale = 1;
+                      }
+                    }
+                    return Opacity(
+                      opacity: scale,
+                      child: Transform(
+                        transform: Matrix4.identity()..scale(scale, scale),
+                        alignment: Alignment.bottomCenter,
+                        child: Align(
+                            heightFactor: 0.7,
+                            alignment: Alignment.topCenter,
+                            child: itemsData[index]),
+                      ),
+                    );
                   },
                 ),
               ),
@@ -201,6 +287,13 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class CategoriesScroller extends StatelessWidget {
+  CategoriesScroller(
+      this.all, this.vegetables, this.fruits, this.mortar, this.most);
+  final Function all;
+  final Function vegetables;
+  final Function fruits;
+  final Function mortar;
+  final Function most;
   @override
   Widget build(BuildContext context) {
     final double categoryHeight =
@@ -218,30 +311,40 @@ class CategoriesScroller extends StatelessWidget {
               CategoryCard(
                   image: 'fruits_and_vegetables.jpg',
                   text: 'All',
-                  onTapHandle: () {},
+                  onTapHandle: () {
+                    all();
+                  },
                   categoryHeight: categoryHeight),
               CategoryCard(
                 image: 'broccoli.png',
                 text: 'Vegetables',
-                onTapHandle: () {},
+                onTapHandle: () {
+                  vegetables();
+                },
                 categoryHeight: categoryHeight,
               ),
               CategoryCard(
                 image: 'fruit.png',
                 text: 'Fruits',
-                onTapHandle: () {},
+                onTapHandle: () {
+                  fruits();
+                },
                 categoryHeight: categoryHeight,
               ),
               CategoryCard(
                 image: 'mortar.png',
                 text: 'Mortar',
-                onTapHandle: () {},
+                onTapHandle: () {
+                  mortar();
+                },
                 categoryHeight: categoryHeight,
               ),
               CategoryCard(
                 image: 'most_wanted.jpg',
                 text: 'Most Wanted',
-                onTapHandle: () {},
+                onTapHandle: () {
+                  most();
+                },
                 categoryHeight: categoryHeight,
               ),
             ],

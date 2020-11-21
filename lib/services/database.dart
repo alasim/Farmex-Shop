@@ -1,14 +1,32 @@
 import 'dart:io';
 
+import '../models/constants.dart';
+import 'package:farmex_shop/models/datas.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:farmex_shop/models/product.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class Database {
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  Future<QuerySnapshot> getProducts() async {
+  Future<List<Product>> getProducts() async {
     var snapshot = await _firestore.collection('Products').get();
-    return snapshot;
+    List<Product> data = snapshot.docs
+        .map((e) => Product(
+            type: e.data()['producType'] == 'vegetable'
+                ? types.vegetable
+                : e.data()['producType'] == 'fruit'
+                    ? types.fruit
+                    : types.mortar,
+            name: e.data()['producName'],
+            image: e.data()['imageUrl'],
+            itemQuantity: e.data()['productUnit'],
+            price: e.data()['producPrice'],
+            theme:
+                e.data()['producTheme'] == 'green' ? greenTheme : orangeTheme))
+        .toList();
+
+    return data;
   }
 
   Future<String> upluadImage(
@@ -36,5 +54,14 @@ class Database {
       }
     });
     return null;
+  }
+
+  productUploadOnce(Map data) {
+    _firestore.collection('Products').add(data).then((doc) async {
+      await _firestore
+          .collection('Products')
+          .doc(doc.id)
+          .update({'id': doc.id});
+    }).catchError((err) => false);
   }
 }
