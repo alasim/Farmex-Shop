@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:farmex_shop/controllers/productController.dart';
 import 'package:farmex_shop/models/constants.dart';
 import 'package:farmex_shop/models/datas.dart';
@@ -9,9 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ItemMain extends StatefulWidget {
-  ItemMain({this.p, this.refreshMain});
+  ItemMain({@required this.p, this.refreshMain, this.fileImahe});
   final Product p;
   final Function refreshMain;
+  final File fileImahe;
   @override
   _ItemMainState createState() => _ItemMainState();
 }
@@ -167,11 +170,16 @@ class _ItemMainState extends State<ItemMain> {
                             onTap: () {
                               itemClickHadle();
                             },
-                            child: Image.asset(
-                              "assets/images/${widget.p.image}",
-                              //height: 150,
-                              width: 100,
-                            ),
+                            child: widget.fileImahe.isNull
+                                ? Image.asset(
+                                    "assets/images/${widget.p.image}",
+                                    //height: 150,
+                                    width: 80,
+                                  )
+                                : Image.file(
+                                    widget.fileImahe,
+                                    width: 80,
+                                  ),
                           ),
                         ),
                       ),

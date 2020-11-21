@@ -7,6 +7,7 @@ import 'package:farmex_shop/screens/demo.dart';
 import 'package:farmex_shop/screens/home_screen.dart';
 import 'package:farmex_shop/screens/wishlist.dart';
 import 'package:farmex_shop/screens/you.dart';
+import 'package:farmex_shop/services/database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
@@ -22,14 +23,15 @@ void main() async {
       title: 'Farmex Shop',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        appBarTheme: AppBarTheme(
-            elevation: 0.0,
-            iconTheme: IconThemeData(color: kDeepGeen, size: 20)),
-        scaffoldBackgroundColor: Colors.green[100],
-        primaryColor: Colors.green,
-        primarySwatch: Colors.orange,
-      ),
-      home: AdminProductUpload(),
+          appBarTheme: AppBarTheme(
+              elevation: 0.0,
+              iconTheme: IconThemeData(color: kDeepGeen, size: 20)),
+          scaffoldBackgroundColor: Colors.green[100],
+          primaryColor: Colors.green,
+          primarySwatch: Colors.orange,
+          accentColor: Colors.amber,
+          colorScheme: ColorScheme.light(primary: Colors.green)),
+      home: HomeScreen(),
       // home: HomeScreen(),
     ),
   );

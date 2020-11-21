@@ -1,11 +1,13 @@
 import 'package:badges/badges.dart';
 import 'package:farmex_shop/controllers/productController.dart';
 import 'package:farmex_shop/models/datas.dart';
+import 'package:farmex_shop/models/product.dart';
 import 'package:farmex_shop/screens/cart.dart';
 import 'package:farmex_shop/screens/notifications.dart';
 import 'package:farmex_shop/screens/orders.dart';
 import 'package:farmex_shop/screens/search_page.dart';
 import 'package:farmex_shop/screens/wishlist.dart';
+import 'package:farmex_shop/services/database.dart';
 import 'package:farmex_shop/ui/categoty_card.dart';
 import 'package:farmex_shop/ui/drawer.dart';
 import 'package:farmex_shop/ui/item_main.dart';
@@ -32,6 +34,26 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> vegetables = [];
   List<Widget> fruits = [];
   List<Widget> mortars = [];
+  List<Product> allFireProducts = [];
+  void getData() async {
+    print('object');
+    var snapshot = await Database().getProducts();
+    snapshot.docs.forEach((e) {
+      var product = Product(
+          type: e.data()['producType'] == 'vegetable'
+              ? types.vegetable
+              : e.data()['producType'] == 'fruit'
+                  ? types.fruit
+                  : types.mortar,
+          name: e.data()['producName'],
+          image: e.data()['imageUrl'],
+          itemQuantity: e.data()['productUnit'],
+          price: e.data()['producPrice'],
+          theme: e.data()['producTheme'] == 'green' ? greenTheme : orangeTheme);
+      allFireProducts.add(product);
+    });
+  }
+
   void getPostsData() {
     preProducts.forEach((e) {
       priceSet[e.name] = e.price;
@@ -64,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    getData();
     categoriesScroller = CategoriesScroller(
       () {
         allCat();
