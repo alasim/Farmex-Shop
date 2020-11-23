@@ -21,7 +21,7 @@ class Database {
             name: e.data()['producName'],
             image: e.data()['imageUrl'],
             itemQuantity: e.data()['productUnit'],
-            price: e.data()['producPrice'],
+            price: int.parse(e.data()['producPrice']),
             theme:
                 e.data()['producTheme'] == 'green' ? greenTheme : orangeTheme))
         .toList();

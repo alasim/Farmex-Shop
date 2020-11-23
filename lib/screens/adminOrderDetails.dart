@@ -132,14 +132,17 @@ class AdminOrderDetails extends StatelessWidget {
               ),
             ]),
           ),
-          FulWithButton(() {
-            adminController
-                .makePaied(
-                    userId: order.userId,
-                    id: order.id,
-                    publicKey: order.publicKey)
-                .then((value) => Get.back());
-          }),
+          FulWithButton(
+            buttonHandle: () {
+              adminController
+                  .makePaied(
+                      userId: order.userId,
+                      id: order.id,
+                      publicKey: order.publicKey)
+                  .then((value) => Get.back());
+            },
+            text: 'Make it paied',
+          ),
         ],
       ),
     );

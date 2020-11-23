@@ -104,7 +104,7 @@ List<Product> preProducts = [
       image:
           'https://firebasestorage.googleapis.com/v0/b/farmex-shop.appspot.com/o/Products%2Fffxxlklvxcb%20dAsset%2016.png?alt=media&token=a90887e6-ca88-488c-93b4-67a3093818bf',
       itemQuantity: '1p',
-      price: '1kg',
+      price: 130,
       theme: orangeTheme),
   Product(
       type: types.fruit,
@@ -299,6 +299,7 @@ class OrderModel {
   String userId;
   String publicKey;
   String date;
+  int timestamp;
   Map inCart;
   bool paied;
   int payable;
@@ -306,6 +307,7 @@ class OrderModel {
     this.id = e.data()['id'];
     this.userId = e.data()['userId'];
     this.date = e.data()['date'];
+    this.timestamp = e.data()['timestamp'];
     this.paied = e.data()['paied'];
     this.payable = e.data()['payable'];
     this.inCart = e.data()['items'];
@@ -317,7 +319,8 @@ class Order {
   Order(this.items, this.inCart, this.status);
 
   String id;
-  String date = DateFormat.yMMMd().format(DateTime.now());
+  int timestamp = DateTime.now().millisecondsSinceEpoch;
+  String date = DateFormat.yMMMd().add_jm().format(DateTime.now());
   List<Product> items;
   var inCart;
   String status;

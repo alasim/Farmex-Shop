@@ -9,7 +9,8 @@ class Product {
       this.image,
       this.itemQuantity,
       this.theme});
-  var type, name, price, image, itemQuantity, theme;
+  var type, name, image, itemQuantity, theme;
+  final int price;
 
   var id, loved = false, numOfItemSelected = 1;
 }

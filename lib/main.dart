@@ -5,6 +5,7 @@ import 'package:farmex_shop/screens/adminProductUpload.dart';
 import 'package:farmex_shop/screens/cart.dart';
 import 'package:farmex_shop/screens/demo.dart';
 import 'package:farmex_shop/screens/home_screen.dart';
+import 'package:farmex_shop/screens/order_confirmed.dart';
 import 'package:farmex_shop/screens/wishlist.dart';
 import 'package:farmex_shop/screens/you.dart';
 import 'package:farmex_shop/services/database.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:badges/badges.dart';
 import 'package:farmex_shop/models/datas.dart';
 import 'package:get/get.dart';
+import 'official/screen_dev.dart';
 
 enum types { vegetable, fruit, mortar }
 void main() async {
@@ -35,9 +37,9 @@ void main() async {
   //   map['producTheme'] = 'green';
   //   map['imageUrl'] = e.image;
   //   Future.delayed(Duration(seconds: 10), () {
-  //     mapData.add(map);
-  //     print(mapData.length);
-  //     //Database().productUploadOnce(map);
+  //     // mapData.add(map);
+  //     // print(mapData.length);
+  //     Database().productUploadOnce(map);
   //   });
   // });
 
@@ -54,8 +56,8 @@ void main() async {
           primarySwatch: Colors.orange,
           accentColor: Colors.amber,
           colorScheme: ColorScheme.light(primary: Colors.green)),
-      home: HomeScreen(),
-      // home: HomeScreen(),
+      home: ScreenDev(),
+      // home: HomeScreen(),ScreenDev()
     ),
   );
 }

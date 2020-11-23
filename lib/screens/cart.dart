@@ -162,7 +162,9 @@ class _CartMainState extends State<CartMain> {
                                                 SignInBottomSheet());
                                             return;
                                           }
+
                                           Get.off(OrderConfirmed());
+
                                           // productController.orders.add(
                                           //   Order(
                                           //       List.from(
@@ -170,23 +172,6 @@ class _CartMainState extends State<CartMain> {
                                           //       {...productController.inCart},
                                           //       'Unpaied'),
                                           // );
-                                          Order order = Order(
-                                              List.from(
-                                                  productController.carted),
-                                              {...productController.inCart},
-                                              'Unpaied');
-                                          var map = {
-                                            'items': order.inCart,
-                                            'payable': order.totalAmount(),
-                                            'paied': false,
-                                            'date': order.date,
-                                            'userId': authController.user
-                                          };
-                                          print(map);
-                                          productController.addOrder(map);
-                                          print(productController.carted);
-                                          productController.carted.clear();
-                                          productController.inCart.clear();
                                         },
                                         child: Container(
                                           margin: EdgeInsets.symmetric(

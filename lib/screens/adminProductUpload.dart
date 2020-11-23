@@ -52,7 +52,7 @@ class _AdminProductUploadState extends State<AdminProductUpload> {
       Map<String, String> map = {};
       map['producName'] = e.name;
       map['productUnit'] = e.itemQuantity;
-      map['producPrice'] = e.price;
+      map['producPrice'] = e.price.toString();
       map['producType'] = e.type == types.vegetable
           ? 'vegetable'
           : e.type == types.fruit
@@ -70,7 +70,7 @@ class _AdminProductUploadState extends State<AdminProductUpload> {
         name: _productNameController.text,
         image: 'carrots-vegetables.jpg',
         itemQuantity: _productUnit,
-        price: _productPriceController.text,
+        price: int.parse(_productPriceController.text),
         theme: _productTheme == 'green' ? greenTheme : orangeTheme);
     setState(() {});
   }

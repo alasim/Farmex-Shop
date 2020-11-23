@@ -1,19 +1,19 @@
 import 'dart:io';
 
-import 'package:farmex_shop/controllers/productController.dart';
+import '../../power_controllers/productController.dart';
 import 'package:farmex_shop/models/constants.dart';
 import 'package:farmex_shop/models/datas.dart';
+import 'package:farmex_shop/models/product.dart';
 import 'package:farmex_shop/screens/details_screen.dart';
 import 'package:farmex_shop/shared/CircleButton.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../official/user/models/product_model.dart';
-import 'package:farmex_shop/models/product.dart';
+import '../../models/product_model.dart';
 
 class ItemMain extends StatefulWidget {
   ItemMain({@required this.p, this.refreshMain, this.fileImahe});
-  final Product p;
+  final ProductModel p;
   final Function refreshMain;
   final File fileImahe;
   @override
@@ -49,46 +49,46 @@ class _ItemMainState extends State<ItemMain> {
       //print(setting['wishlisted'][0]);
     }
 
-    Function cartHandle2() {
-      setState(() {
-        if (!carted.contains(widget.p)) {
-          carted.add(widget.p);
-          inCart[widget.p.name] = 1;
-          // Scaffold.of(context).showSnackBar(
-          //   SnackBar(
-          //     duration: Duration(milliseconds: 700),
-          //     content: Text('${widget.p.name} added to cart.'),
-          //   ),
-          // );
-        } else {
-          inCart.remove(widget.p.name);
-          carted.remove(widget.p);
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              duration: Duration(milliseconds: 700),
-              content: Text('${widget.p.name} removed from cart.'),
-            ),
-          );
-        }
-        print('${inCart[widget.p.name]}=1, inCart length = ${inCart.length}');
-        print(carted.length.toString());
-        //print(setting['wishlisted'][0]);
-      });
+    // Function cartHandle2() {
+    //   setState(() {
+    //     if (!carted.contains(widget.p)) {
+    //       carted.add(widget.p);
+    //       inCart[widget.p.name] = 1;
+    //       // Scaffold.of(context).showSnackBar(
+    //       //   SnackBar(
+    //       //     duration: Duration(milliseconds: 700),
+    //       //     content: Text('${widget.p.name} added to cart.'),
+    //       //   ),
+    //       // );
+    //     } else {
+    //       inCart.remove(widget.p.name);
+    //       carted.remove(widget.p);
+    //       Scaffold.of(context).showSnackBar(
+    //         SnackBar(
+    //           duration: Duration(milliseconds: 700),
+    //           content: Text('${widget.p.name} removed from cart.'),
+    //         ),
+    //       );
+    //     }
+    //     print('${inCart[widget.p.name]}=1, inCart length = ${inCart.length}');
+    //     print(carted.length.toString());
+    //     //print(setting['wishlisted'][0]);
+    //   });
 
-      return null;
-    }
+    //   return null;
+    // }
 
     Function itemClickHadle() {
       print(widget.p.name);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => DetailsScreen(
-            p: widget.p,
-            //refreshParen: widget.refreshMain(),
-          ),
-        ),
-      );
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => DetailsScreen(
+      //       p: widget.p,
+      //       //refreshParen: widget.refreshMain(),
+      //     ),
+      //   ),
+      // );
       return null;
     }
 
@@ -144,7 +144,7 @@ class _ItemMainState extends State<ItemMain> {
                             ),
                             children: [
                               TextSpan(
-                                text: ' /${widget.p.itemQuantity}',
+                                text: ' /${widget.p.unit}',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Colors.grey,

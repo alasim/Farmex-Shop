@@ -62,7 +62,7 @@ class ProductController extends GetxController {
         .collection('Users')
         .doc(authController.user)
         .collection('Orders')
-        .orderBy('date')
+        .orderBy('timestamp')
         .get()
         .then(
           (qSnapshot) => qSnapshot.docs.forEach(

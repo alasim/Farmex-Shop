@@ -43,7 +43,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
     return Scaffold(
       backgroundColor: Color.fromRGBO(244, 243, 243, 1),
-      appBar: appBarWithBackButton('Orders', context),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          'All your orders',
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.black87,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: FutureBuilder<List<OrderModel>>(
             future: productController.orders,

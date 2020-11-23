@@ -123,8 +123,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                           tag: widget.p.name,
                                           child: Image(
                                             height: 200,
-                                            image: AssetImage(
-                                                'assets/images/${widget.p.image}'),
+                                            image: NetworkImage(widget.p.image),
                                           ),
                                         ),
                                       ),
@@ -245,15 +244,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
               ],
             ),
           ),
-          FulWithButton(() {
-            if (!productController.carted.contains(widget.p)) {
-              productController.carted.add(widget.p);
-              productController.inCart[widget.p.name] = 1;
-            }
-            Navigator.pop(context);
-            print('Item in cart: ${carted.length}');
-            widget.refreshParen();
-          }),
+          FulWithButton(
+            buttonHandle: () {
+              if (!productController.carted.contains(widget.p)) {
+                productController.carted.add(widget.p);
+                productController.inCart[widget.p.name] = 1;
+              }
+              Navigator.pop(context);
+              print('Item in cart: ${carted.length}');
+              widget.refreshParen();
+            },
+            text: 'Add to Cart',
+          ),
         ],
       ),
     );

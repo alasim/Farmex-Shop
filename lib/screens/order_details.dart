@@ -2,6 +2,7 @@ import 'package:farmex_shop/models/datas.dart';
 import 'package:flutter/material.dart';
 
 import 'package:dotted_border/dotted_border.dart';
+import 'package:intl/intl.dart';
 
 class OrderDetails extends StatelessWidget {
   OrderDetails(this.order, this.totalAMount);
@@ -9,6 +10,17 @@ class OrderDetails extends StatelessWidget {
   final int totalAMount;
   @override
   Widget build(BuildContext context) {
+    // String date = DateFormat.yMMMd().format(DateTime.now());
+    // print('date');
+    // print(date);
+    // final now = new DateTime.now();
+    // String formatter = DateFormat('yMd').format(now);
+    // print('formatter');
+    // print(formatter);
+    // String time = DateFormat.jm().format(DateTime.now());
+    // print('time');
+    // print(time);
+    //DateFormat.yMd().add_jm()
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(

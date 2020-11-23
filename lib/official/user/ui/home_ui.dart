@@ -1,30 +1,22 @@
-import 'package:badges/badges.dart';
-import 'package:farmex_shop/controllers/fireProductController.dart';
-import 'package:farmex_shop/controllers/productController.dart';
-import 'package:farmex_shop/models/datas.dart';
-import 'package:farmex_shop/models/product.dart';
+//import 'package:farmex_shop/controllers/fireProductController.dart';
+//import 'package:farmex_shop/controllers/productController.dart';
 import 'package:farmex_shop/screens/cart.dart';
-import 'package:farmex_shop/screens/notifications.dart';
-import 'package:farmex_shop/screens/orders.dart';
 import 'package:farmex_shop/screens/search_page.dart';
-import 'package:farmex_shop/screens/wishlist.dart';
-import 'package:farmex_shop/services/database.dart';
-import 'package:farmex_shop/ui/categoty_card.dart';
-import 'package:farmex_shop/ui/drawer.dart';
-import 'package:farmex_shop/ui/item_main.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../models/constants.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage(this.refreshMain);
-  final Function refreshMain;
+import '../power_controllers/productController.dart';
+import '../ui/components/categoty_card.dart';
+import '../ui/components/item_main.dart';
+import '../ui/components/drawer.dart';
+import '../constants/colors.dart';
+
+class Home extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomeState createState() => _HomeState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomeState extends State<Home> {
   CategoriesScroller categoriesScroller;
   ScrollController controller = ScrollController();
   bool closeTopContainer = false;
@@ -105,42 +97,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           Get.to(Searchpage());
                         },
                       ),
-                      // IconButton(
-                      //   icon: newNotifications != 0
-                      //       ? Badge(
-                      //           animationType: BadgeAnimationType.scale,
-                      //           badgeContent: Text(
-                      //             newNotifications.toString(),
-                      //             style: TextStyle(
-                      //               color: Colors.white,
-                      //               fontSize: 8,
-                      //             ),
-                      //           ),
-                      //           child: Icon(
-                      //             Icons.notifications,
-                      //             color: kDeepGeen,
-                      //             size: 20,
-                      //           ),
-                      //         )
-                      //       : Icon(
-                      //           Icons.notifications,
-                      //           color: kDeepGeen,
-                      //           //size: 35,
-                      //         ),
-                      //   onPressed: () {
-                      //     Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (context) {
-                      //           return Notifications();
-                      //         },
-                      //       ),
-                      //     );
-                      //     setState(() {
-                      //       //newNotifications = 0;
-                      //     });
-                      //   },
-                      // ),
                     ],
                   ),
                 ),
@@ -169,13 +125,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               Expanded(
-                child: FutureBuilder<List<ItemMain>>(
-                  future: FireProductCOntroller().itemsMain(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
+                  child: Obx(() => ListView.builder(
                         controller: controller,
-                        itemCount: snapshot.data.length,
+                        itemCount: productController.allProducts.length,
                         physics: BouncingScrollPhysics(),
                         itemBuilder: (context, index) {
                           double scale = 1.0;
@@ -196,16 +148,12 @@ class _MyHomePageState extends State<MyHomePage> {
                               child: Align(
                                   heightFactor: 0.7,
                                   alignment: Alignment.topCenter,
-                                  child: snapshot.data[index]),
+                                  child: ItemMain(
+                                      p: productController.allProducts[index])),
                             ),
                           );
                         },
-                      );
-                    } else
-                      return Center(child: CircularProgressIndicator());
-                  },
-                ),
-              ),
+                      ))),
             ],
           ),
         ),
